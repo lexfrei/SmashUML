@@ -1,19 +1,20 @@
 @startuml
 Title Turn
 start
-:1. Crank It Up;
+partition CrankItUp {
 :Trigger "at the start of turn" abilities;
-:2. Play Cards;
+}
+partition PlayCards {
 repeat
 fork
   :Minion;
-  :1. Choose a base;
-  :2. Put the minion card beside it, facing toward you;
-  :3. Do what the card says;
+  :Choose a base;
+  :Put the minion card beside it, facing toward you;
+  :Do what the card says;
 fork again
   :Actions;
-  :1. Show your card;
-  :2. Do what the card says;
+  :Show your card;
+  :Do what the card says;
   if (Ongoing ability?) then (Yes)
   else (No)
     :Discard card;
@@ -23,7 +24,8 @@ fork again
 end fork
 repeat while (Can you and do you want more?) -> Yes
 Note right: You may play only one Action **and** one Minion each turn.\nUnless you got extra one.
-:3. Check for Scoring;
+}
+Partition Scoring {
 if (Total power of all minions VS The base’s breakpoint) then (≥)
 :Current player chooses the order;
 repeat
@@ -77,7 +79,8 @@ if (Someony got 15 points?) then (Yes)
   endif
 else
 endif
-:4. Draw 2 Cards;
+}
+partition Draw2Cards {
 repeat
 if (Your deck empty?) then (Yes)
   :Shuffle it;
@@ -91,7 +94,9 @@ if (Do you got 10+ cards?) then (Yes)
   repeat while (Do you got 10 cards?) -> No
   else (No)
 endif
-:5. Shut It Down;
+}
+partition Shut_It_Down {
 :Trigger "end of the turn abilities";
 :Pass the turn to the left;
+}
 @enduml
