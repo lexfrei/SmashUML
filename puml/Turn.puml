@@ -1,0 +1,97 @@
+@startuml
+Title Turn
+start
+:1. Crank It Up;
+:Trigger "at the start of turn" abilities;
+:2. Play Cards;
+repeat
+fork
+  :Minion;
+  :1. Choose a base;
+  :2. Put the minion card beside it, facing toward you;
+  :3. Do what the card says;
+fork again
+  :Actions;
+  :1. Show your card;
+  :2. Do what the card says;
+  if (Ongoing ability?) then (Yes)
+  else (No)
+    :Discard card;
+  endif
+fork again
+  :Do Nothing;
+end fork
+repeat while (Can you and do you want more?) -> Yes
+Note right: You may play only one Action **and** one Minion each turn.\nUnless you got extra one.
+:3. Check for Scoring;
+if (Total power of all minions VS The base’s breakpoint) then (≥)
+:Current player chooses the order;
+repeat
+ repeat
+ if (You can and whant to play\na "before the base score" Special Ability) then (Yes)
+ :Play it!;
+ if (SA gives you an extra card play?) then (Yes)
+ :Play it!;
+ else (No)
+ endif
+ else (Pass)
+ endif
+ repeat while (All players pass in sequence?\nIf No, The next player can play SA) -> No
+ :Awarding VP;
+ fork
+  :the most power player
+  got VP = left number;
+ fork again
+  :The second highest player
+  got VP = center number;
+ fork again
+   :The third highest player
+   VP = right numbrt;
+ end fork
+ repeat
+ if (You can and whant to play\nan "after the base score" Special Ability) then (Yes)
+ :Play it!;
+ if (SA gives you an extra card play?) then (Yes)
+ :Play it!;
+ else (No)
+ endif
+ else (Pass)
+ endif
+ repeat while (All players pass in sequence?\nIf No, The next player can play SA) -> No
+ :Discard cards to their owners' discard piles
+ This triggers discard abilities;
+ :Discard scored base;
+ if (Is ther any more bases in deck) then (Yes)
+  :Replace discarded base;
+ else (No)
+ endif
+repeat while (Is the more bases to score?) -> Yes
+else (<)
+endif
+if (Someony got 15 points?) then (Yes)
+  if (Is he alone?) then (Yes)
+   :win;
+   stop
+  else (no)
+  :Play untill the tie become resolved;
+  endif
+else
+endif
+:4. Draw 2 Cards;
+repeat
+if (Your deck empty?) then (Yes)
+  :Shuffle it;
+  else (No)
+endif
+:Draw 1 Card;
+repeat while (Did you drow 2 cards?) -> No
+if (Do you got 10+ cards?) then (Yes)
+  repeat
+    :Discard 1 card;
+  repeat while (Do you got 10 cards?) -> No
+  else (No)
+endif
+:5. Shut It Down;
+:Trigger "end of the turn abilities";
+:Pass the turn to the left;
+@enduml
